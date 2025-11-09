@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sevgi Saatleri</title>
+  <style>
+    body, html {
+      margin:0;
+      padding:0;
+      height:100%;
+      font-family:sans-serif;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      transition:background 1s;
+    }
+    #message {
+      color:white;
+      font-size:2em;
+      text-align:center;
+      opacity:0;
+      transition:opacity 1.5s;
+      max-width:80%;
+      line-height:1.4;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="message">Merhaba!</div>
+  <div id="qrcode"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script>
+    const messages = [
+      {start:0, end:2, text:"Uykum kaçsa da, aklım hep sende. Gece bile seni düşlüyorum. 🌙", bg:'#0b0c3d'},
+      {start:3, end:5, text:"Sabah olmadan içimde doğuyorsun — en güzel uyanış sensin. 💫", bg:'#373c94'},
+      {start:6, end:8, text:"Günaydın, yeni gün seninle güzel başlıyor. ☀️", bg:'#87ceeb'},
+      {start:9, end:11, text:"Günün yeni başlarken bile, aklımın en güzel köşesinde sen varsın. 🌸", bg:'#ffd580'},
+      {start:12, end:14, text:"Günün ortası bile, seni düşündüğüm kadar sıcak değil. 💛", bg:'#ff7e5f'},
+      {start:15, end:17, text:"Güneş yavaşça batarken, kalbimde hep sen parlıyorsun. 🌇", bg:'#cc3560'},
+      {start:18, end:20, text:"Akşam oluyor… ama ben hâlâ günün en güzel kısmındayım: seni düşünürken.", bg:'#6a0572'},
+      {start:21, end:22, text:"Gece sessiz, ama içimde senin sesin yankılanıyor. 🌙", bg:'#2c0d3a'},
+      {start:23, end:23, text:"Günün son dakikalarında bile tek dileğim sensin. 💌", bg:'#1a0b2e'}
+    ];
+
+    function showMessage() {
+      const now = new Date();
+      const hour = now.getHours();
+      const messageObj = messages.find(m => hour >= m.start && hour <= m.end) || messages[0];
+      const messageDiv = document.getElementById('message');
+      document.body.style.background = messageObj.bg;
+      messageDiv.style.opacity = 0;
+      setTimeout(()=>{
+        messageDiv.textContent = messageObj.text;
+        messageDiv.style.opacity = 1;
+      }, 500);
+    }
+
+    // QR oluştur
+    const siteURL = "https://kullaniciadi.github.io/repo-adi/duygular.html"; // 🔸 Burayı kendi GitHub Pages URL’inle değiştir
+    new QRCode(document.getElementById("qrcode"), {
+      text: siteURL,
+      width: 150,
+      height: 150,
+      correctLevel: QRCode.CorrectLevel.H
+    });
+
+    showMessage();
+    setInterval(showMessage, 60*1000);
+  </script>
+</body>
+</html>
